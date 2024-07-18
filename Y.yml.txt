@@ -1,0 +1,39 @@
+name: Build Node.js App
+
+on:
+  push:
+    branches:
+      - master
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: sudo npm install
+      
+
+      - name: run package
+        run: sudo npm start
+   
+      - name: permission adjust 
+        run: sudo chmod 7000 TeraKey.pem
+
+      #- name: mv 
+      #  run: mv TeraKey.pem ../
+
+      - name: copy files to server 
+        run: scp -o StrictHostKeyChecking=no -i ../TeraKey.pem -r * ec2-user@10.0.6.59:/home/ec2-user/piplineProject
+
+      - name: Trigger depl script
+        run: ssh -o StrictHostKeyChecking=no -i ../TeraKey.pem  ec2-user@10.0.6.59 nohup ./home/ec2-user/piplineProject/node.sh &
