@@ -29,4 +29,4 @@ jobs:
         run: scp -o StrictHostKeyChecking=no -i TeraKey.pem -r * ec2-user@3.236.185.104:/home/ec2-user/piplineProject
 
       - name: Trigger depl script
-        run: ssh -o StrictHostKeyChecking=no -i TeraKey.pem  ec2-user@3.236.185.104 nohup ./home/ec2-user/piplineProject/node.sh &
+        run: ssh -o StrictHostKeyChecking=no -i TeraKey.pem  ec2-user@3.236.185.104 nohup /home/ec2-user/piplineProject/node.sh &
